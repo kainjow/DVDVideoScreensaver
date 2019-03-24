@@ -64,8 +64,10 @@ class DVDScreenSaverView: NSView {
         }
     }
     
-    override func draw(_ dirtyRect: NSRect) {
-        NSColor.black.setFill()
-        dirtyRect.fill()
+    override func viewDidMoveToWindow() {
+        if let win = window {
+            win.backgroundColor = .black
+        }
     }
+    
 }
