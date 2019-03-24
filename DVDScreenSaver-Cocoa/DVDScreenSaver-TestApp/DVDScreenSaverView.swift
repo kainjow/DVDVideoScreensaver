@@ -25,8 +25,9 @@ class DVDScreenSaverView: NSView {
     private var timer: Timer?
     
     override func awakeFromNib() {
-        guard let image = NSImage(named: "DVDVideo360") else {
-            print("Failed to load image")
+        guard let image = NSImage(named: "DVDVideo360"),
+            let superview = self.imageView.superview else {
+            print("Setup failed")
             return
         }
         logo = MovingLogo(
@@ -46,17 +47,13 @@ class DVDScreenSaverView: NSView {
             }
         )
         let rescale = {
-            guard let bounds = self.imageView.superview?.bounds else {
-                print("Failed to get bounds")
-                return
-            }
-            self.logo?.rescale(bounds: bounds, scale: self.logoScale)
+            self.logo?.rescale(bounds: superview.bounds, scale: self.logoScale)
         }
         logo?.nextColor()
         rescale()
         logo?.placeInRandomSpot()
-        self.imageView.superview?.postsFrameChangedNotifications = true
-        NotificationCenter.default.addObserver(forName: NSView.frameDidChangeNotification, object: self.imageView.superview, queue: nil) { _ in
+        superview.postsFrameChangedNotifications = true
+        NotificationCenter.default.addObserver(forName: NSView.frameDidChangeNotification, object: superview, queue: nil) { _ in
             rescale()
         }
         timer = Timer.scheduledTimer(withTimeInterval: 1/60, repeats: true) { _ in

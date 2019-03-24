@@ -89,7 +89,7 @@ class MovingLogo {
         if rect.right >= bounds.right {
             moveRight = false
             bOutOfBounds = true
-        } else if rect.origin.x < bounds.origin.x {
+        } else if rect.origin.x <= bounds.origin.x {
             moveRight = true
             bOutOfBounds = true
         }
@@ -118,7 +118,8 @@ class MovingLogo {
             x = (hyppos + (moveRight ? speed : -speed) * 2) * cos(theta)
             y = (hyppos + (moveDown ? speed : -speed) * 2) * sin(theta)
         case .allCorners:
-            break //TODO
+            //TODO
+            break
         }
 
         let step = watch.elapsedMilliseconds / 10
